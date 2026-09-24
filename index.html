@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Chapitre 2 : Fonctions polynômes du second degré</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Reveal -->
+  <link href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css" rel="stylesheet"/> <!-- Reveal -->
+  <link href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/moon.css" rel="stylesheet"/> <!-- Reveal -->
+  <link href="https://fonts.googleapis.com/css2?family=Computer+Modern+Serif&amp;display=swap" rel="stylesheet"><!-- Police computer modern (latex) -->
+
+  <style>
+    body, .reveal {
+      font-family: 'Computer Modern Serif', serif;
+      background-color: black;
+      color: white;
+    }
+    .reveal h2,
+    .reveal h3 {
+      font-family: 'Computer Modern Serif', serif;
+      font-weight: bold;
+      text-transform: none;
+      display: inline-block;
+      border-radius: 12px;
+      padding: 0.2em 0.5em;
+      paint-order: stroke fill;
+      -webkit-mask-image:
+        linear-gradient(to right, transparent, black 5%, black 95%, transparent),
+        linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(to right, transparent, black 5%, black 95%, transparent),
+        linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
+      mask-composite: intersect;
+    }
+
+    .reveal h2 {
+      color: red;
+      font-size: 1.6em;
+      margin-bottom: 0.6em;
+      background-color: rgba(222, 105, 105, 0.5);
+      -webkit-text-stroke: 3.5px black;
+    }
+
+    .reveal h3 {
+      color: ForestGreen;
+      text-align: left;
+      font-size: 1.3em;
+      margin-bottom: 0.5em;
+      background-color: rgba(157, 236, 157, 0.4);
+      -webkit-text-stroke: 3.6px black;
+    }
+  </style>
+
+  <!-- Blocs de cours (mêmes conventions de couleur que stylepoly.sty) -->
+  <style>
+    .definition, .definitions, .defprop, .prop, .theoreme, .consequence, .exercice, .exemple, .exemples, .remarque, .rappel, .mnemo, .voc {
+      padding: 0.35em; border-radius: 6px; margin: 0.3em auto; position: relative; text-align: left; color: #000; max-width: 95%; min-height: 4em;
+    }
+    .definition  { border: 5px solid red; background-color: rgb(255, 193, 193); }
+    .definitions { border: 5px solid red; background-color: rgb(255, 193, 193); }
+    .defprop     { border: 5px solid red; background-color: rgb(255, 193, 193); }
+    .prop        { border: 5px solid red; background-color: rgb(255, 193, 193); }
+    .theoreme    { border: 5px solid red; background-color: rgb(255, 193, 193); }
+    .exemple     { border: 5px solid blue; background-color: rgb(215, 219, 255); }
+    .exemples    { border: 2px solid blue; background-color: rgb(215, 219, 255); }
+    .remarque    { border: 5px solid orange; background-color: rgb(255, 232, 188); }
+    .mnemo       { border: 5px solid #711082; background-color: rgb(237, 164, 235); }
+    .voc         { border: 5px solid rgb(51, 168, 51); background-color: rgb(166, 218, 166); }
+    .consequence { border: 5px solid red; background-color: rgb(255, 193, 193); }
+    .exercice    { border: 5px solid blue; background-color: rgb(215, 219, 255); }
+    .rappel      { border: 5px solid orange; background-color: rgb(255, 232, 188); }
+
+    .definition::before, .definitions::before, .defprop::before, .prop::before, .theoreme::before, .consequence::before, .exercice::before, .exemple::before, .exemples::before, .remarque::before, .rappel::before, .mnemo::before, .voc::before {
+      display: block; text-align: left; font-weight: bold; margin-bottom: 0.5em;
+    }
+    .definition::before  { content: "Définition :"; color: red; }
+    .definitions::before { content: "Définitions :"; color: red; }
+    .defprop::before     { content: "Définition / Propriété :"; color: red; }
+    .prop::before        { content: "Propriété :"; color: red; }
+    .theoreme::before    { content: "Théorème :"; color: red; }
+    .exemple::before     { content: "Exemple :"; color: rgb(77, 77, 236); }
+    .exemples::before    { content: "Exemples :"; color: rgb(77, 77, 236); }
+    .remarque::before    { content: "Remarque :"; color: rgb(220, 144, 2); }
+    .mnemo::before       { content: "Mnémotechnie :"; color: #711082; }
+    .voc::before         { content: "Vocabulaire :"; color: rgb(30, 148, 30); }
+    .consequence::before { content: "Conséquence :"; color: red; }
+    .exercice::before    { content: "Exercice :"; color: rgb(77, 77, 236); }
+    .rappel::before      { content: "Rappel :"; color: rgb(220, 144, 2); }
+
+    /* Étiquette personnalisée : on annule le ::before et on met un titre en tête du bloc */
+    .bloc-titre { display:block; font-weight:bold; margin-bottom:0.5em; }
+    .no-label::before { content: none !important; }
+
+    /* Démonstration / Histoire : hors-boîte (comme \dem / \his en LaTeX) -- pas de fond coloré */
+    .demonstration, .histoire { color: #fff; text-align: left; max-width: 90%; margin: 0.4em auto; }
+    .demonstration { font-size: 0.8em; }
+    .demonstration .bloc-titre { color: #ccc; font-style: normal; }
+    .histoire .bloc-titre { color: #fff; font-style: italic; text-decoration: underline; font-weight: normal; }
+
+    table.tab-mnemo { border-collapse: collapse; margin: 0.3em auto; font-size: 0.46em; line-height: 1.25; }
+    table.tab-mnemo th, table.tab-mnemo td { border: 1px solid #444; padding: 0.2em 0.45em; text-align: left; }
+    table.tab-mnemo th { color: #d4ff00; }
+
+    /* Formule-cœur encadrée+boldée : \fcolorbox+\boldsymbol nécessitent des extensions
+       MathJax non chargeables hors-ligne (file://) -- équivalent en CSS pur + \mathbf. */
+    .formule-coeur { display:inline-block; border:3px solid red; background:white; color:#000;
+                     padding:0.3em 0.6em; border-radius:3px; margin:0.3em 0; }
+  </style>
+
+  <!-- Configuration MathJax (configmacros requis pour tex.macros). ATTENTION : jamais
+       \fcolorbox / \boldsymbol / \color dans une formule MathJax ici -- ces commandes
+       déclenchent le chargement d'extensions absentes du vendor local hors-ligne et
+       cassent silencieusement TOUT le typesetting de la page. Formule-cœur = CSS
+       (.formule-coeur) + \mathbf natif. -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']],
+        processEscapes: true, packages: {'[+]': ['ams', 'configmacros']},
+        macros: {
+          R: '\\mathbb{R}', N: '\\mathbb{N}', Z: '\\mathbb{Z}', Q: '\\mathbb{Q}', D: '\\mathbb{D}',
+          vect: ['{\\overrightarrow{\\mathstrut #1}}', 1],
+          coord: ['{\\overrightarrow{\\mathstrut #1}\\,\\begin{pmatrix} #2 \\end{pmatrix}}', 2],
+          sfrac: ['{\\textstyle\\tfrac{#1}{#2}}', 2],
+          norme: ['{\\left\\lVert #1 \\right\\rVert}', 1]
+        }
+      },
+      loader: { load: ['[tex]/ams'] }, svg: { fontCache: 'global' }
+    };
+  </script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Slide de garde -->
+      <section>
+        <div style="margin-top: 2em; text-align: center;">
+          <p style="font-size: 1.2em; margin-left: 3em; margin-right: 3em;">Chapitre 2 : Fonctions polynômes du second degré</p>
+          <p style="font-size: 0.55em; margin-top: 6em;">
+            Lycée Marcelin <span style="font-variant: small-caps;">Berthelot</span> &ndash;
+            Aymé <span style="font-variant: small-caps;">Petit</span>
+          </p>
+        </div>
+      </section>
+
+      <!---->
+      <!-- I/ Premières définitions -->
+      <!---->
+
+      <section data-auto-animate>
+        <h2>I/ Premières définitions</h2>
+      </section>
+
+      <!-- 1) Forme développée -->
+
+      <section data-auto-animate data-transition="none">
+        <h2>I/ Premières définitions</h2>
+        <h3>1) Forme développée</h3>
+        <div class="definition fragment">
+          Une <b>fonction polynôme du second degré</b> est une fonction $f$ définie sur $\R$ par $f(x)=ax^2+bx+c$,
+          où $a$, $b$ et $c$ sont des réels donnés, avec $a\neq0$. Cette écriture est la <b>forme développée</b> de $f$.
+        </div>
+      </section>
+
+      <section data-auto-animate data-transition="none">
+        <div class="exemple">
+          $f(x)=2x^2-5x+3$ :
+          <p class="fragment">Ici $a=2$, $b=-5$, $c=3$.</p>
+        </div>
+      </section>
+
+      <!-- 2) Forme factorisée -->
+
+      <section data-auto-animate data-transition="none">
+        <h3>2) Forme factorisée</h3>
+        <div class="definition fragment">
+          Une fonction polynôme du second degré $f$ est donnée sous <b>forme factorisée</b> lorsqu'elle s'écrit
+          $f(x)=a(x-x_1)(x-x_2)$, où $a$, $x_1$ et $x_2$ sont des réels, avec $a\neq0$.
+        </div>
+      </section>
+
+      <section data-auto-animate data-transition="none">
+        <div class="prop no-label">
+          <span class="bloc-titre" style="color:red;">Méthode :</span>
+          Pour vérifier que $\alpha$ est racine de $f$ on calcule $f(\alpha)$ et on vérifie que le résultat est nul : $f(\alpha)=0$.
+        </div>
+      </section>
+
+      <section data-auto-animate data-transition="none">
+        <div class="exemple">
+          $f(x)=x^2-6x+5$. Calculons $f(1)$ et $f(5)$.
+          <p style="margin-top: 7em;"></p>
+        </div>
+      </section>
+
+      <!-- II/ Étude graphique : la parabole -- à suivre -->
+
+    </div>
+  </div>
+
+  <!-- Scripts VENDORISÉS en local -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
+
+  <!-- Init Reveal + re-typeset MathJax à chaque fragment / changement de slide -->
+  <script>
+    Reveal.initialize({ transition: 'fade', hash: true });
+    const retypeset = (elements = null) => {
+      if (window.MathJax) {
+        MathJax.typesetClear();
+        MathJax.typesetPromise(elements || undefined)
+          .catch(err => console.error("MathJax error:", err.message));
+      }
+    };
+    Reveal.on('ready', () => retypeset());
+    Reveal.on('slidechanged', () => {
+      if (window.MathJax && MathJax.typesetClear && MathJax.typesetPromise) {
+        MathJax.typesetClear(); MathJax.typesetPromise();
+      }
+    });
+    Reveal.on('fragmentshown', event => {
+      const elements = [event.fragment, ...event.fragment.querySelectorAll('*')]; retypeset(elements);
+    });
+  </script>
+
+  <!-- video-fragment : 1ère flèche = play, double = fin + suite, simple = pause -->
+  <script>
+    const doubleDelay = 350;
+    const videoStates = new Map();
+
+    Reveal.on('slidechanged', event => {
+      event.currentSlide.querySelectorAll('.video-fragment').forEach(v => {
+        videoStates.set(v, { started: false, lastPressTime: 0, pressTimer: null });
+        v.pause(); v.currentTime = 0;
+      });
+    });
+
+    document.addEventListener("keydown", e => {
+      if (!["ArrowRight","ArrowDown","PageDown"," "].includes(e.key)) return;
+      const currentSlide = Reveal.getCurrentSlide();
+      const v = currentSlide.querySelector('.video-fragment.visible');
+      if (!v) return;
+      let state = videoStates.get(v);
+      if (!state) { state = { started: false, lastPressTime: 0, pressTimer: null }; videoStates.set(v, state); }
+      if (v.ended) return;
+      const now = Date.now();
+      if (!state.started) {
+        e.preventDefault(); e.stopImmediatePropagation();
+        v.play().catch(err => console.warn("Lecture bloquée :", err));
+        state.started = true; state.lastPressTime = now; videoStates.set(v, state); return;
+      }
+      e.preventDefault(); e.stopImmediatePropagation();
+      if (now - state.lastPressTime < doubleDelay) {
+        clearTimeout(state.pressTimer); v.currentTime = v.duration; state.lastPressTime = 0; Reveal.nextFragment();
+      } else {
+        state.lastPressTime = now;
+        state.pressTimer = setTimeout(() => {
+          if (v.paused) { v.play().catch(err => console.warn("Lecture bloquée :", err)); } else { v.pause(); }
+          state.lastPressTime = 0; videoStates.set(v, state);
+        }, doubleDelay);
+      }
+      videoStates.set(v, state);
+    }, true);
+
+    document.querySelectorAll('.video-fragment').forEach(v => { v.onended = () => { Reveal.nextFragment(); }; });
+  </script>
+</body>
+</html>
